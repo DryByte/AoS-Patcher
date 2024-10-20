@@ -19,6 +19,9 @@ int main(int argc, char const *argv[])
 	fread(file_buf, 1, size, fp_r);
 	fclose(fp_r);
 
+	char aslr_disabler[] = {0x00, 0x83}; //byebye random address that not fixes the code below
+	memcpy(file_buf+0x15e, aslr_disabler, 2);
+
 	// CodeCave at 0x401020
 	char buf[] = {
 		0x68, 0xD4, 0x65, 0x44, 0x0, //push 0x4465d4 (LIBAOS.DLL)
